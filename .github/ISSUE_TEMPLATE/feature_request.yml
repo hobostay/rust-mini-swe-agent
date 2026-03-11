@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose a new feature or capability
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What workflow or limitation is this feature addressing?
+      placeholder: I want to do X, but the current implementation only supports Y.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the behavior or interface you want.
+      placeholder: Add a new `...` option / environment / provider / command.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      placeholder: Existing workarounds, related tools, or design alternatives.
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      placeholder: Benchmark, provider, environment, deployment constraints, etc.
+

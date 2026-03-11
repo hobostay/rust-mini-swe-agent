@@ -1,0 +1,6 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussions / usage questions
+    url: https://github.com/hobostay/rust-mini-swe-agent/issues
+    about: Use the question template for usage and design questions.
+
