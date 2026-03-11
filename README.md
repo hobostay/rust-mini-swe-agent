@@ -1,27 +1,43 @@
 # rust-mini-swe-agent
 
-这是一个单独目录里的 Rust 版复刻，目标是尽量对齐原项目的主使用面。
+[![CI](https://github.com/hobostay/rust-mini-swe-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/hobostay/rust-mini-swe-agent/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
-- `mini` 子命令
-- `bench` / `bench-single`
-- `inspector`
-- `config show/set/unset/setup`
-- YAML 配置加载
-- OpenAI 兼容 `/chat/completions` 模型调用
-- 单一 `bash` tool call 解析
-- 本地和 docker 环境执行
+一个尽量对齐 [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) 主使用面的 Rust 版复刻。
+
+它提供了一个完整的本地 CLI agent 工作流：模型调用、`bash` action 执行、benchmark 批量运行、trajectory 保存与回放，以及本地 / 容器 / ConTree 兼容环境。
+
+## 特性
+
+- `mini`、`bench`、`bench-single`、`inspector`、`config`
+- OpenAI 兼容 `/chat/completions` 和 `/responses`
+- 单一 `bash` tool 调用与 text-based bash code block 回退
 - `human` / `confirm` / `yolo` 模式
-- trajectory 保存与回放
+- 本地、Docker、Singularity、Bubblewrap、ConTree 兼容环境
+- trajectory 持久化、TUI inspector、benchmark 输出和状态汇总
+- 本地 JSON/JSONL、远程 JSON/JSONL、Hugging Face dataset repo
 
-它仍然没有把 Python 版里所有 provider 和所有外部系统都逐个搬齐，但主控制流已经拆成与原项目相似的多模块结构。
+## 快速开始
 
-## 运行 `mini`
-
-先准备环境变量：
+先准备 API Key：
 
 ```bash
 export OPENAI_API_KEY=your_key
 ```
+
+运行一个最小任务：
+
+```bash
+cargo run -- mini -m gpt-4.1-mini -t "Inspect the repository and finish immediately"
+```
+
+默认输出 trajectory：
+
+```text
+~/.config/rust-mini-swe-agent/last_run.traj.json
+```
+
+## 运行 `mini`
 
 直接运行：
 
@@ -154,9 +170,9 @@ cargo run -- config show
 cargo run -- config set OPENAI_API_KEY sk-xxx
 ```
 
-## 当前范围
+## 当前状态
 
-已经实现：
+已实现：
 
 - 多子命令 CLI
 - 交互模式
@@ -179,12 +195,12 @@ cargo run -- config set OPENAI_API_KEY sk-xxx
 - 更接近原版的 docker 持久容器和 singularity sandbox 生命周期
 - 提交哨兵 `COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`
 - trajectory 持久化
-- 简化版 benchmark runner
-- 简化版 trajectory inspector
+- benchmark runner
+- TUI trajectory inspector
 
-还没实现：
+已知差距：
 
-- Python 版里每个 provider 的专用兼容层
-- HF 数据集直连和 SWE-bench 专用镜像辅助逻辑
-- Textual 风格全屏 inspector UI
-- `contree-sdk` 原生集成和更完整的 bubblewrap/singularity 参数集
+- 不是逐 provider 的原生 SDK 全量复刻，部分 provider 仍以兼容层方式实现
+- `contree` 已支持 REST/API 与兼容执行路径，但不是 Python `contree_sdk` 的原生 session 实现
+- inspector 是 `ratatui` TUI，不是 Python Textual UI
+- 仍有少量环境高级参数和边界行为未与 Python 版逐项对齐
