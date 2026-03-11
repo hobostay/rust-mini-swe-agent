@@ -7,6 +7,21 @@
 
 它提供了一个完整的本地 CLI agent 工作流：模型调用、`bash` action 执行、benchmark 批量运行、trajectory 保存与回放，以及本地 / 容器 / ConTree 兼容环境。
 
+## 结构图
+
+```mermaid
+flowchart LR
+    CLI["CLI (`mini` / `bench` / `inspector`)"] --> Config["Config Loader"]
+    Config --> Agent["Agent Loop"]
+    Agent --> Model["Model Backend"]
+    Agent --> Env["Execution Environment"]
+    Model --> Agent
+    Env --> Agent
+    Agent --> Traj["Trajectory Store"]
+    Traj --> Inspector["TUI Inspector"]
+    Bench["Benchmark Runner"] --> Agent
+```
+
 ## 特性
 
 - `mini`、`bench`、`bench-single`、`inspector`、`config`
@@ -36,6 +51,12 @@ cargo run -- mini -m gpt-4.1-mini -t "Inspect the repository and finish immediat
 ```text
 ~/.config/rust-mini-swe-agent/last_run.traj.json
 ```
+
+## Demo
+
+如果你想录一个最短 demo 或发项目介绍，可以直接按这份脚本走：
+
+[`docs/demo-script.md`](/Users/chu/rust-mini-swe-agent/docs/demo-script.md)
 
 ## 运行 `mini`
 
