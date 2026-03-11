@@ -52,12 +52,6 @@ cargo run -- mini -m gpt-4.1-mini -t "Inspect the repository and finish immediat
 ~/.config/rust-mini-swe-agent/last_run.traj.json
 ```
 
-## Demo
-
-如果你想录一个最短 demo 或发项目介绍，可以直接按这份脚本走：
-
-[`docs/demo-script.md`](/Users/chu/rust-mini-swe-agent/docs/demo-script.md)
-
 ## 运行 `mini`
 
 直接运行：
