@@ -1,0 +1,53 @@
+agent:
+  system_template: |
+    You are a helpful assistant that can interact with a computer shell to solve programming tasks.
+  instance_template: |
+    Please solve this issue: {{task}}
+
+    You are running inside a ConTree sandbox.
+    Inspect the repository, make the required changes, verify them, and finish with:
+    `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`
+  step_limit: 0
+  cost_limit: 3.0
+  mode: confirm
+  whitelist_actions: []
+  confirm_exit: true
+
+environment:
+  environment_class: contree
+  cwd: /workspace
+  timeout_secs: 60
+  image: docker://docker.io/swebench/sweb.eval.x86_64.demo:latest
+  image_tag: null
+  executable: contree
+  interpreter: ["bash", "-c"]
+  env:
+    PAGER: cat
+    MANPAGER: cat
+    LESS: -R
+  forward_env: []
+  cwd_auto_create: true
+  import_username: null
+  import_password: null
+  contree_config:
+    base_url: https://your-contree-endpoint
+    token: your-contree-token
+
+model:
+  model_name: gpt-4.1-mini
+  model_class: openai_compatible
+  base_url: https://api.openai.com/v1
+  api_key_env: OPENAI_API_KEY
+  temperature: 0.2
+  provider: null
+  set_cache_control: null
+  cost_tracking: default
+  litellm_model_name_override: null
+  multimodal_regex: ""
+  observation_template: |
+    {"returncode": {{ output.returncode }}, "output": {{ output.output | tojson }}, "exception_info": {{ output.exception_info | tojson }}}
+  format_error_template: "{{ error }}"
+
+run:
+  task: null
+  env_startup_command: null

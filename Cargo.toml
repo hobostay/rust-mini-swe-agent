@@ -1,0 +1,25 @@
+[package]
+name = "rust-mini-swe-agent"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1"
+async-trait = "0.1"
+clap = { version = "4", features = ["derive"] }
+crossterm = "0.28"
+dialoguer = "0.12"
+dirs = "6"
+dotenvy = "0.15"
+indicatif = "0.17"
+minijinja = "2"
+rand = "0.9"
+ratatui = "0.29"
+rayon = "1"
+regex = "1"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "blocking"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+wait-timeout = "0.2"

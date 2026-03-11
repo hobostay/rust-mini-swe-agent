@@ -1,0 +1,37 @@
+agent:
+  system_template: |
+    You are a helpful assistant that can interact with a computer.
+
+    Your response must contain exactly ONE bash code block with ONE command.
+  instance_template: |
+    Please solve this issue: {{task}}
+
+    Every response must contain exactly one bash code block.
+    Finish with `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`.
+  step_limit: 0
+  cost_limit: 0.0
+  mode: confirm
+  whitelist_actions: []
+  confirm_exit: true
+
+environment:
+  environment_class: local
+  cwd: null
+  timeout_secs: 30
+  image: null
+
+model:
+  model_name: gpt-4.1-mini
+  model_class: text
+  base_url: https://api.openai.com/v1
+  api_key_env: OPENAI_API_KEY
+  temperature: 0.2
+  observation_template: |
+    {"returncode": {{ output.returncode }}, "output": {{ output.output | tojson }}, "exception_info": {{ output.exception_info | tojson }}}
+  format_error_template: "{{ error }}"
+  cost_tracking: default
+  multimodal_regex: ""
+
+run:
+  task: null
+  env_startup_command: null

@@ -1,0 +1,47 @@
+agent:
+  system_template: |
+    You are a helpful assistant that can interact with a computer shell to solve programming tasks.
+  instance_template: |
+    <pr_description>
+    {{task}}
+    </pr_description>
+
+    You are working inside a benchmark environment.
+    Modify source code to fix the issue and finish by producing a git patch.
+    Submit with:
+    `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT && cat patch.txt`
+  step_limit: 250
+  cost_limit: 3.0
+  mode: confirm
+  whitelist_actions: []
+  confirm_exit: true
+
+environment:
+  environment_class: docker
+  cwd: /testbed
+  timeout_secs: 60
+  image: null
+  executable: docker
+  env:
+    PAGER: cat
+    MANPAGER: cat
+    LESS: -R
+    PIP_PROGRESS_BAR: "off"
+    TQDM_DISABLE: "1"
+  forward_env: []
+
+model:
+  model_name: anthropic/claude-sonnet-4-5-20250929
+  model_class: openai_compatible
+  base_url: https://api.openai.com/v1
+  api_key_env: OPENAI_API_KEY
+  temperature: 0.0
+  observation_template: |
+    {"returncode": {{ output.returncode }}, "output": {{ output.output | tojson }}, "exception_info": {{ output.exception_info | tojson }}}
+  format_error_template: "{{ error }}"
+  cost_tracking: default
+  multimodal_regex: ""
+
+run:
+  task: null
+  env_startup_command: null
